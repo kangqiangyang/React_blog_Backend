@@ -7,10 +7,14 @@ const userRoute = require("./routes/users");
 const postRoute = require("./routes/posts");
 const categoryRoute = require("./routes/category");
 const multer = require("multer");
+var cors = require("cors");
+const path = require("path");
 
 dotenv.config();
 // postman send json file
 app.use(express.json());
+app.use(cors());
+app.use("/images", express.static(path.join(__dirname, "/images")));
 
 mongoose.set("strictQuery", false);
 mongoose
@@ -31,7 +35,7 @@ const storage = multer.diskStorage({
   // the saved file name
   filename: (req, file, cb) => {
     // send to client side
-    cb(null, req.body.name);
+    cb(null, file.originalname);
   },
 });
 
